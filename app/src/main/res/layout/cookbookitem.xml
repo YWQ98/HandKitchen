@@ -19,9 +19,9 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:scaleType="fitXY"
+        android:layout_height="270dp"
         android:layout_margin="6dp"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/button" />
 
     <View

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import xin.tapin.ywq138.Adapter.MainFragmentStatePagerAdapter;
 import xin.tapin.ywq138.logregfragment.LogRegActivity;
+import xin.tapin.ywq138.mainfragment.Fragment_Old_kitchen;
 import xin.tapin.ywq138.mainfragment.Fragment_kitchen;
 import xin.tapin.ywq138.mainfragment.Fragment_my;
 import xin.tapin.ywq138.mainfragment.Fragment_shop;
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         //添加Fragment
         ArrayList<Fragment> data = new ArrayList<>();
-        data.add(new Fragment_kitchen(this));
+        data.add(new Fragment_kitchen(this));//新版本
+//        data.add(new Fragment_Old_kitchen(this));//旧版本
         data.add(new Fragment_shop(this));
         data.add(new Fragment_my());
         //添加标题栏

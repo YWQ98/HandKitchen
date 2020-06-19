@@ -27,76 +27,35 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="150dp"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/button" />
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="材料：" />
+
+            <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:textSize="21sp"
-                android:text="信息" />
+                android:text="TextView"
+                android:textSize="21sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="食材明细" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="主料" />
+                android:text="做法：" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="主料"
+                android:text="TextView"
                 android:textSize="21sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="7dp"
-                android:text="辅料" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="21sp"
-                android:text="辅料" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="7dp"
-                android:text="调料" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="调料"
-                android:textSize="21sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="做法步骤" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="21sp"
-                android:layout_gravity="center_horizontal"
-                android:text="步骤" />
 
         </LinearLayout>
     </ScrollView>

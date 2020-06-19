@@ -19,13 +19,41 @@ import xin.tapin.ywq138.bean.CookBook;
  * 配置OkHttpClient
  */
 public class MyApplication extends Application {
+    //新版食谱辅助参数
+    private static String newClassShuPu;//当前食谱类型
+    private static String upPage;//上一页
+    private static String nextPage;//下一页
+
+    //以下新版食谱不可用
     private static String classShuPu;//当前食谱类型
     private static int maxPage;//最大页数
     private static int page;//当前页面
     private static String trueSearch;//搜索真实地址  已取消使用，原需要此参数数据已修改
     private static Context context;
 
+    public static String getNewClassShuPu() {
+        return newClassShuPu;
+    }
 
+    public static void setNewClassShuPu(String newClassShuPu) {
+        MyApplication.newClassShuPu = newClassShuPu;
+    }
+
+    public static String getUpPage() {
+        return upPage;
+    }
+
+    public static void setUpPage(String upPage) {
+        MyApplication.upPage = upPage;
+    }
+
+    public static String getNextPage() {
+        return nextPage;
+    }
+
+    public static void setNextPage(String nextPage) {
+        MyApplication.nextPage = nextPage;
+    }
 
     public static int getMaxPage() {
         return maxPage;

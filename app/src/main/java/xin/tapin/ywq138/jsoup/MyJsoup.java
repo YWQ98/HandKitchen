@@ -16,6 +16,7 @@ import java.util.List;
 
 import xin.tapin.ywq138.base.MyApplication;
 import xin.tapin.ywq138.bean.CookBook;
+import xin.tapin.ywq138.bean.OldCookBook;
 import xin.tapin.ywq138.bean.ShopItem;
 import xin.tapin.ywq138.utils.Constants;
 
@@ -24,9 +25,103 @@ import xin.tapin.ywq138.utils.Constants;
  */
 public class MyJsoup {
 
+    /**
+     * 新版本 获取食谱
+     * 该方法能获取该APP内所有功能所需数据
+     * 获取数据不保证一直都能用（只要原网站布局或者class之类属性修改，就不能很好的获取数据了）
+     * 以防不能用  测试完成有录制视频已被不时之需
+     * @param url
+     * @param search
+     * @return
+     * @throws IOException
+     */
+    public List<CookBook> getShiPu(String url, Integer search) throws IOException {
+
+        List<CookBook> data = new ArrayList<>();//返回数据
+        String url2 = url;//这个url2才是获取数据的url  传入的数据可能需要换页显示
+
+        Document doc = Jsoup.connect(url2)
+                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+                .get();
+//        Elements next =  doc.getElementsByTag("a");
+        Elements elements ;
+        if(search != null){//搜索方式样式不一样
+            elements = doc.select("div[class=\"ui_list_1\"]").select("ul").select("li");
+        }else{
+            elements = doc.select("div[class=\"ui_newlist_1 get_num\"]").select("ul").select("li");
+        }
+        for (Element element:
+             elements) {
+            Elements a = element.select("div[class=\"pic\"]").select("a");
+            String title = a.attr("title");
+            if (TextUtils.isEmpty(title)){
+                title = element.select("div[class=\"detail\"]").select("h4").text();
+            }
+            String href = a.attr("href");
+
+            Document doc2 = Jsoup.connect(href)//二次获取食谱的材料和做法
+                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+                    .get();
+            Elements recipDetail = doc2.select("div[class=\"recipDetail\"]");
+            Elements recipeStepE = doc2.select("div[class=\"recipeStep\"]").select("ul").select("li");
+            int i = 1;
+            String recipeStep = "";
+            for (Element element1:
+                 recipeStepE) {
+                String text = element1.select("div[class=\"recipeStep_num\"]").text();
+                String replace = element1.select("div[class=\"recipeStep_word\"]").text();
+                recipeStep += replace.replace(text,(i++)+"、")+"\n";
+//                Log.i("TAG", "getShiPu: "+step+"\n");
+            }
+//            Log.i("TAG", "getShiPu: "+recipeStep);
+            String message = doc2.select("div[id=\"block_txt1\"]").text();//食谱详情页图片下面的一段信息
+            String mainIngredient = "";
+            String auxiliaryIngredient = "";
+            String seasoning = "";
+//            Log.i("TAG", "getShiPu: "+message);
+            Elements particulars = doc2.select("fieldset[class=\"particulars\"]");//获取食材
+            for (Element element1:
+                particulars) {
+                String text = element1.text();
+                if (text.contains("主料") || text.contains("主面团")){//主料、主面团
+                    mainIngredient = text.replace("主料","");
+//                    Log.i("TAG", "getShiPu: "+mainIngredient+"\n");
+                }else if (text.contains("辅料") || text.contains("表面酥粒")){//辅料、表面酥粒
+                    auxiliaryIngredient = text.replace("辅料","");
+//                    Log.i("TAG", "getShiPu: "+auxiliaryIngredient+"\n");
+                }else if (text.contains("调料") || text.contains("配料") || text.contains("奶油内馅")){//调料、配料、奶油内馅
+                    seasoning = text.replace("调料","");
+//                    Log.i("TAG", "getShiPu: "+seasoning+"\n");
+                }
+//                Log.i("TAG", "getShiPu: "+text+"\n");
+            }
+            String img = recipDetail.select("div[class=\"recipe_De_imgBox\"]").select("a[class=\"J_photo\"]").select("img").attr("src");
+            data.add(new CookBook(href,title,img,message,mainIngredient,auxiliaryIngredient,seasoning,recipeStep));
+//            Log.i("TAG", "getShiPu: "+title+"\n"+href+"\n"+img);
+        }
+
+
+        Elements pageNum = doc.select("div[class=\"ui-page-inner\"]");//获取页数
+        //设置默认上一页和下一页
+        MyApplication.setUpPage(null);
+        MyApplication.setNextPage(null);
+
+        if(pageNum != null){//获取并设置上一页 下一页参数
+            for (Element element:
+                 pageNum) {
+                if(pageNum.select("a").text().contains("上一页")){
+                    MyApplication.setUpPage(pageNum.select("a").attr("href"));
+                }else if(pageNum.select("a").text().contains("下一页")){
+                    MyApplication.setNextPage(pageNum.select("a").attr("href"));
+                }
+            }
+        }
+
+        return data;
+    }
 
     /**
-     * 获取食谱
+     * 旧版本 获取食谱
      * 该方法能获取该APP内所有功能所需数据
      * 获取数据不保证一直都能用（只要原网站布局或者class之类属性修改，就不能很好的获取数据了）
      * 以防不能用  测试完成有录制视频已被不时之需
@@ -35,8 +130,8 @@ public class MyJsoup {
      * @return
      * @throws IOException
      */
-    public List<CookBook> getShiPu(String url, Integer page,List<CookBook> nowCookBook) throws IOException {
-        List<CookBook> data = new ArrayList<>();//返回数据
+    public List<OldCookBook> getOldShiPu(String url, Integer page, List<OldCookBook> nowCookBook) throws IOException {
+        List<OldCookBook> data = new ArrayList<>();//返回数据
         String url2 = url;//这个url2才是获取数据的url  传入的数据可能需要换页显示
         if(page != null && page != 1){//判断是否需要换页----需换页拼接url赋值给url2
             url2 = url + "/?page="+page;
@@ -99,7 +194,7 @@ public class MyJsoup {
 //                    Log.i("TAG", "getXinShiPu: "+element2.select("div[class=\"dd\"]").toString());
                 }
             }
-            data.add(new CookBook(href,title,img,material,practice));
+            data.add(new OldCookBook(href,title,img,material,practice));
 //            Log.i("TAG", "getXinShiPu: "+element.select("img").attr("src"));
         }
 

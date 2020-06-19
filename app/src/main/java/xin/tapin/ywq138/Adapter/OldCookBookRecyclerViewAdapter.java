@@ -12,39 +12,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import xin.tapin.ywq138.R;
-import xin.tapin.ywq138.bean.CookBook;
+import xin.tapin.ywq138.bean.OldCookBook;
 
 /**
  * 食谱适配器
  */
-public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter <CookBookRecyclerViewAdapter.CookBookViewHolder>{
-    private List<CookBook> data;
+public class OldCookBookRecyclerViewAdapter extends RecyclerView.Adapter <OldCookBookRecyclerViewAdapter.CookBookViewHolder>{
+    private List<OldCookBook> data;
     private Context context;
-    public CookBookRecyclerViewAdapter(List<CookBook> data, Context context) {
+    public OldCookBookRecyclerViewAdapter(List<OldCookBook> data, Context context) {
         this.data = data;
         this.context = context;
     }
     class CookBookViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
-        TextView textView2;
-        TextView textView3;
-        TextView textView4;
-        TextView textView5;
-        TextView textView6;
         ImageView imageView;
         public CookBookViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
-            textView2 = itemView.findViewById(R.id.textView2);
-            textView3 = itemView.findViewById(R.id.textView3);
-            textView4 = itemView.findViewById(R.id.textView4);
-            textView5 = itemView.findViewById(R.id.textView5);
-            textView6 = itemView.findViewById(R.id.textView6);
             imageView = itemView.findViewById(R.id.imageView);
         }
     }
@@ -57,12 +46,11 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter <CookBookR
 
     @Override
     public void onBindViewHolder(@NonNull final CookBookViewHolder holder, int position) {
-        final CookBook cookBook = data.get(position);
+        final OldCookBook cookBook = data.get(position);
         holder.textView.setText(cookBook.getTitle());
-        Picasso.get().load(cookBook.getImgUrl()).into(holder.imageView);
-        /*Glide.with(context)
+        Glide.with(context)
                 .load("https:"+cookBook.getImgUrl())
-                .into(holder.imageView);*/
+                .into(holder.imageView);
         //点击监听弹窗显示该菜的所需的材料和做法
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,24 +73,21 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter <CookBookR
      * @param cookBook
      * @return
      */
-    public View getDialogView (CookBook cookBook){
-        View view = View.inflate(this.context,R.layout.dialog_item_zuofa,null);
+    public View getDialogView (OldCookBook cookBook){
+        View view = View.inflate(this.context,R.layout.dialog_item_old_zuofa,null);
         TextView textView = view.findViewById(R.id.textView);
         ImageView imageView = view.findViewById(R.id.imageView);
         TextView textView2 = view.findViewById(R.id.textView2);
         TextView textView3 = view.findViewById(R.id.textView3);
-        TextView textView4 = view.findViewById(R.id.textView4);
-        TextView textView5 = view.findViewById(R.id.textView5);
-        TextView textView6 = view.findViewById(R.id.textView6);
         textView.setText(cookBook.getTitle());
-        textView2.setText(cookBook.getMessage());
-        textView3.setText(cookBook.getMainIngredient());
-        textView4.setText(cookBook.getAuxiliaryIngredient());
-        textView5.setText(cookBook.getSeasoning());
-        textView6.setText(cookBook.getRecipeStep());
-
-        Picasso.get().load(cookBook.getImgUrl()).into(imageView);
-
+        textView2.setText(cookBook.getMaterial());
+        //数据可能有部分有格式可以优化（换行显示，看起来清楚点）  不适用全部
+        textView3.setText(cookBook.getPractice().replace("；","。\n"));
+        Glide.with(context)
+                // //ali.xinshipu.cn/20140226/original/1393380931309.jpg@288w_216h_99q_1e_1c.jpg
+                //默认获取到就有http:后面的//
+                .load("https:"+cookBook.getImgUrl())
+                .into(imageView);
         return view;
     }
 }

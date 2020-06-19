@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="早餐" />
+                android:text="甜品" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="甜点" />
+                android:text="家常菜" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="下午茶" />
+                android:text="最新" />
         </LinearLayout>
 
     </LinearLayout>
