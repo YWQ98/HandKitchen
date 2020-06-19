@@ -38,9 +38,8 @@ public class MyJsoup {
     public List<CookBook> getShiPu(String url, Integer search) throws IOException {
 
         List<CookBook> data = new ArrayList<>();//返回数据
-        String url2 = url;//这个url2才是获取数据的url  传入的数据可能需要换页显示
 
-        Document doc = Jsoup.connect(url2)
+        Document doc = Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
                 .get();
 //        Elements next =  doc.getElementsByTag("a");
@@ -106,17 +105,35 @@ public class MyJsoup {
         MyApplication.setUpPage(null);
         MyApplication.setNextPage(null);
 
-        if(pageNum != null){//获取并设置上一页 下一页参数
-            Elements a = pageNum.select("a");
-            if(a.text().contains("上一页")){
-                MyApplication.setUpPage(a.select("a").attr("href"));
-                Log.i("TAG", "getUpPage: "+MyApplication.getUpPage());
+        if(search == null){
+            if(pageNum != null){//获取并设置上一页 下一页参数ui-page mt20
+                Elements a = pageNum.select("a");
+                if(a.text().contains("上一页")){
+                    MyApplication.setUpPage(a.select("a").attr("href"));
+//                Log.i("TAG", "getUpPage: "+MyApplication.getUpPage());
+                }
+                if (a.last().text().contains("下一页")){
+                    MyApplication.setNextPage(a.select("a").last().attr("href"));
+//                Log.i("TAG", "getNextPage: "+MyApplication.getNextPage());
+                }
             }
-            if (a.last().text().contains("下一页")){
-                MyApplication.setNextPage(a.select("a").last().attr("href"));
-                Log.i("TAG", "getUpPage: "+MyApplication.getNextPage());
+        }else{//搜索布局界面不一样
+            Elements select = doc.select("div[class=\"ui-page mt20\"]").select("div[class=\"ui-page-inner\"]");
+            if(select != null){//获取并设置上一页 下一页参数
+                Elements a = select.select("a");
+                String attr = a.select("a").last().attr("href");
+                String attr1 = a.select("a").attr("href");
+                if(a.text().contains("上一页")){
+                    MyApplication.setUpPage(attr1.substring(0,attr1.length()-1));
+                Log.i("TAG", "getUpPage: "+MyApplication.getUpPage());
+                }
+                if (a.last().text().contains("下一页")){
+                    MyApplication.setNextPage(attr.substring(0,attr.length()-1));
+                Log.i("TAG", "getNextPage: "+MyApplication.getNextPage());
+                }
             }
         }
+
 
         return data;
     }

@@ -23,6 +23,15 @@ public class MyApplication extends Application {
     private static String newClassShuPu;//当前食谱类型
     private static String upPage;//上一页
     private static String nextPage;//下一页
+    private static Integer search;//搜索状态
+
+    public static Integer getSearch() {
+        return search;
+    }
+
+    public static void setSearch(Integer search) {
+        MyApplication.search = search;
+    }
 
     //以下新版食谱不可用
     private static String classShuPu;//当前食谱类型

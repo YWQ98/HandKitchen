@@ -73,6 +73,7 @@ public class Fragment_kitchen extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 setRecyclerViewData(Constants.NEW_SEARCH_URL+"/"+query,1);//调用设置RecyclerView，显示数据
+                MyApplication.setSearch(1);
                 scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                 recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
                 return false;
@@ -89,6 +90,7 @@ public class Fragment_kitchen extends Fragment {
             @Override
             public void onClick(View v) {
                 setRecyclerViewData(Constants.NEW_BREAKFAST_URL,null);//调用设置RecyclerView，显示数据
+                MyApplication.setSearch(null);
                 scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                 recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
             }
@@ -98,6 +100,7 @@ public class Fragment_kitchen extends Fragment {
             @Override
             public void onClick(View v) {
                 setRecyclerViewData(Constants.NEW_SWEET_URL,null);//调用设置RecyclerView，显示数据
+                MyApplication.setSearch(null);
                 scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                 recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
             }
@@ -107,6 +110,7 @@ public class Fragment_kitchen extends Fragment {
             @Override
             public void onClick(View v) {
                 setRecyclerViewData(Constants.NEW_AFTERNOON_TEA_URL,null);//调用设置RecyclerView，显示数据
+                MyApplication.setSearch(null);
                 scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                 recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
             }
@@ -117,7 +121,7 @@ public class Fragment_kitchen extends Fragment {
             public void onClick(View v) {
                 String nextPage = MyApplication.getUpPage();
                 if (nextPage != null){
-                    setRecyclerViewData(nextPage,null);
+                    setRecyclerViewData(nextPage,MyApplication.getSearch());
                     scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                     recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
                 }else{
@@ -131,7 +135,7 @@ public class Fragment_kitchen extends Fragment {
             public void onClick(View v) {
                 String nextPage = MyApplication.getNextPage();
                 if (nextPage != null){
-                    setRecyclerViewData(nextPage,null);
+                    setRecyclerViewData(nextPage,MyApplication.getSearch());
                     scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                     recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
                 }else{
@@ -140,6 +144,7 @@ public class Fragment_kitchen extends Fragment {
             }
         });
         //初始界面  设置默认获取食谱
+        MyApplication.setSearch(null);
         setRecyclerViewData(Constants.NEW_WEEK_URL,null);
         return view;
     }
