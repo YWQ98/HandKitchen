@@ -107,13 +107,14 @@ public class MyJsoup {
         MyApplication.setNextPage(null);
 
         if(pageNum != null){//获取并设置上一页 下一页参数
-            for (Element element:
-                 pageNum) {
-                if(pageNum.select("a").text().contains("上一页")){
-                    MyApplication.setUpPage(pageNum.select("a").attr("href"));
-                }else if(pageNum.select("a").text().contains("下一页")){
-                    MyApplication.setNextPage(pageNum.select("a").attr("href"));
-                }
+            Elements a = pageNum.select("a");
+            if(a.text().contains("上一页")){
+                MyApplication.setUpPage(a.select("a").attr("href"));
+                Log.i("TAG", "getUpPage: "+MyApplication.getUpPage());
+            }
+            if (a.last().text().contains("下一页")){
+                MyApplication.setNextPage(a.select("a").last().attr("href"));
+                Log.i("TAG", "getUpPage: "+MyApplication.getNextPage());
             }
         }
 
