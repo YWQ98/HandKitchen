@@ -101,6 +101,7 @@ public class Fragment_Old_kitchen extends Fragment {
                                 rsQuery(doc);//调用该方法实现搜索结果数据显示
                             }
                         });
+                searchView.clearFocus();
                 return false;
             }
 

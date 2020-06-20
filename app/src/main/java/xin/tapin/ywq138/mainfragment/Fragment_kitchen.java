@@ -76,6 +76,7 @@ public class Fragment_kitchen extends Fragment {
                 MyApplication.setSearch(1);
                 scrollView.scrollTo(0,0);//获取完成重新定位到顶部
                 recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
+                searchView.clearFocus();
                 return false;
             }
 

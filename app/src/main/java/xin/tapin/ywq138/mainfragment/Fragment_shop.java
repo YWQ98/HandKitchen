@@ -67,6 +67,7 @@ public class Fragment_shop extends Fragment {
                 MyApplication.setClassShuPu(url);
                 MyApplication.setPage(1);
                 setRecyclerViewData(url,null);
+                searchView.clearFocus();
                 return false;
             }
 
