@@ -68,7 +68,7 @@ public class MyJsoup {
             for (Element element1:
                  recipeStepE) {
                 String text = element1.select("div[class=\"recipeStep_num\"]").text();
-                String replace = element1.select("div[class=\"recipeStep_word\"]").text();
+                String replace = recipeStepE.get(i-1).child(1).text();
                 recipeStep += replace.replace(text,(i++)+"、")+"\n";
 //                Log.i("TAG", "getShiPu: "+step+"\n");
             }
@@ -79,7 +79,27 @@ public class MyJsoup {
             String seasoning = "";
 //            Log.i("TAG", "getShiPu: "+message);
             Elements particulars = doc2.select("fieldset[class=\"particulars\"]");//获取食材
-            for (Element element1:
+            //新方式  适用大部分获取食材界面布局
+            if(particulars.size() == 3){
+                String text = particulars.get(0).text();
+                mainIngredient = text.replace("主料","");
+                String text2 = particulars.get(1).text();
+                auxiliaryIngredient = text2.replace("辅料","");
+                String text3 = particulars.get(2).text();
+                seasoning = text3.replace("调料","");
+            }else if(particulars.size() == 2){
+                String text = particulars.get(0).text();
+                mainIngredient = text.replace("主料","");
+                String text2 = particulars.get(1).text();
+                auxiliaryIngredient = text2.replace("辅料","");
+            }else if(particulars.size() == 1){
+                String text = particulars.get(0).text();
+                mainIngredient = text.replace("主料","");
+            }
+            //新方式  适用大部分获取食材界面布局
+
+            //旧方式 可能存在不能完美获取食谱材料
+           /* for (Element element1:
                 particulars) {
                 String text = element1.text();
                 if (text.contains("主料") || text.contains("主面团")){//主料、主面团
@@ -93,7 +113,8 @@ public class MyJsoup {
 //                    Log.i("TAG", "getShiPu: "+seasoning+"\n");
                 }
 //                Log.i("TAG", "getShiPu: "+text+"\n");
-            }
+            }*/
+            //旧方式 可能存在不能完美获取食谱材料
             String img = recipDetail.select("div[class=\"recipe_De_imgBox\"]").select("a[class=\"J_photo\"]").select("img").attr("src");
             data.add(new CookBook(href,title,img,message,mainIngredient,auxiliaryIngredient,seasoning,recipeStep));
 //            Log.i("TAG", "getShiPu: "+title+"\n"+href+"\n"+img);
@@ -125,11 +146,11 @@ public class MyJsoup {
                 String attr1 = a.select("a").attr("href");
                 if(a.text().contains("上一页")){
                     MyApplication.setUpPage(attr1.substring(0,attr1.length()-1));
-                Log.i("TAG", "getUpPage: "+MyApplication.getUpPage());
+//                    Log.i("TAG", "getUpPage: "+MyApplication.getUpPage());
                 }
                 if (a.last().text().contains("下一页")){
                     MyApplication.setNextPage(attr.substring(0,attr.length()-1));
-                Log.i("TAG", "getNextPage: "+MyApplication.getNextPage());
+//                    Log.i("TAG", "getNextPage: "+MyApplication.getNextPage());
                 }
             }
         }
