@@ -24,6 +24,24 @@ public class MyApplication extends Application {
     private static String upPage;//上一页
     private static String nextPage;//下一页
     private static Integer search;//搜索状态
+    private static String emailCode;//邮箱验证码
+    private static boolean email;//当前现在登录方式
+
+    public static String getEmailCode() {
+        return emailCode;
+    }
+
+    public static void setEmailCode(String emailCode) {
+        MyApplication.emailCode = emailCode;
+    }
+
+    public static boolean isEmail() {
+        return email;
+    }
+
+    public static void setEmail(boolean email) {
+        MyApplication.email = email;
+    }
 
     public static Integer getSearch() {
         return search;
