@@ -67,6 +67,8 @@ public class Fragment_shop extends Fragment {
                 MyApplication.setClassShuPu(url);
                 MyApplication.setPage(1);
                 setRecyclerViewData(url,null);
+                scrollView.scrollTo(0,0);//获取完成重新定位到顶部
+                recyclerView.scrollToPosition(0);//获取完成重新定位到顶部
                 searchView.clearFocus();
                 return false;
             }

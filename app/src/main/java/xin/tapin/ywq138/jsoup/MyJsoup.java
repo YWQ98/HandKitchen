@@ -264,8 +264,8 @@ public class MyJsoup {
              gl_item) {
             Elements p_img = element.select("div[class=\"p-img\"]");//图片
             Elements a = p_img.select("a");//图片下a标签
-            String shopUrl = a.attr("href");//商品链接  //item.jd.com/64592930772.html
-            String imageURL = a.select("img").attr("src");//图片地址  //img12.360buyimg.com/n7/jfs/t1/111716/31/2362/220510/5ea16f9cE06d5ae43/ccf221007893e1b7.jpg
+            String shopUrl = "https:" + a.attr("href");//商品链接  //item.jd.com/64592930772.html
+            String imageURL = "https:" + a.select("img").attr("src");//图片地址  //img12.360buyimg.com/n7/jfs/t1/111716/31/2362/220510/5ea16f9cE06d5ae43/ccf221007893e1b7.jpg
             String price = element.select("div[class=\"gl-i-wrap\"]").select("strong").select("i").text();//价格
             String name = element.select("div[class=\"p-name p-name-type-2\"]").text();//商品名
             data.add(new ShopItem(shopUrl,imageURL,name,Double.parseDouble(price)));
@@ -275,6 +275,20 @@ public class MyJsoup {
         return data;
     }
 
+    public String getShop_info(String url) throws IOException {
+        String info = "";
+
+        Document doc = Jsoup.connect(url)
+                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+                .get();
+        Elements detail_info_wrap =  doc.select("div[class=\"tab-con\"]").select("ul[class=\"parameter2 p-parameter-list\"]").select("li");//商品介绍
+        for (Element element:
+             detail_info_wrap) {
+            info += element.text() + "\n";
+        }
+//        Log.i("TAG", "getShop_info: "+info);
+        return info;
+    }
 
     /**
      * 获取食谱 旧方法只能提取最新食谱
