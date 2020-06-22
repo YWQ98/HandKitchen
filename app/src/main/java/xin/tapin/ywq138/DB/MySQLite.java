@@ -14,6 +14,9 @@ public class MySQLite extends SQLiteOpenHelper {
      * 设置默认创建数据库表
      */
     private String sql="create table if not exists userinfo(id varchar(30) primary key,name varchar(30) not null,passwd varchar(50) not null)";
+    private String cart="create table if not exists cartinfo(id INTEGER primary key AUTOINCREMENT," +
+            "itemID varchar(50) not null,number int not null,selected varchar(50) not null" +
+            ",url varchar(100) not null,imageURL varchar(150) not null,name varchar(70) not null,price double not null)";
 //    private String kitchen="create table if not exists kitchen(title varchar(30) primary key,type varchar(30) not null,content varchar(50) not null)";
 
     /**
@@ -34,7 +37,7 @@ public class MySQLite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(sql);
-//        db.execSQL(kitchen);
+        db.execSQL(cart);
 
     }
 

@@ -2,12 +2,18 @@ package xin.tapin.ywq138.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.List;
 
+import xin.tapin.ywq138.DB.MySQLite;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.ShopItem;
@@ -29,7 +36,9 @@ import xin.tapin.ywq138.jsoup.MyJsoup;
 public class ShopRecyclerViewAdapter extends RecyclerView.Adapter <ShopRecyclerViewAdapter.CookBookViewHolder>{
     private List<ShopItem> data;
     private MainActivity context;
+    private MySQLite dbHelper;
     public ShopRecyclerViewAdapter(List<ShopItem> data, MainActivity context) {
+        this.dbHelper = new MySQLite(context,"userinfo.db", null, 1);
         this.data = data;
         this.context = context;
     }
@@ -67,6 +76,46 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter <ShopRecyclerV
                         .setView(getDialogView(ShopItem))
 //                        .setTitle("商品"+ShopItem.getName())
                         .setPositiveButton("关闭",null)
+                        .setNegativeButton("加入购物车", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
+                                String Query = "Select * from cartinfo where  itemID=?";
+                                Cursor cursor = writableDatabase.rawQuery(Query, new String[]{ShopItem.getItemID()+""});
+                                if(cursor.getCount() > 0){
+                                    cursor.moveToFirst();
+                                    Query = "update cartinfo set number=? where  itemID=?";
+                                    writableDatabase.execSQL(Query,new Object[]{cursor.getInt(cursor.getColumnIndex("number"))+1,ShopItem.getItemID()});
+                                }else {
+                                    ContentValues values = new ContentValues();
+                                    values.put("itemID", ShopItem.getItemID());
+                                    values.put("number", ShopItem.getNumber());
+                                    values.put("selected", ShopItem.isSelected());
+                                    values.put("url", ShopItem.getUrl());
+                                    values.put("imageURL", ShopItem.getImageURL());
+                                    values.put("name", ShopItem.getName());
+                                    values.put("price", ShopItem.getPrice());
+                                    writableDatabase.insert("cartinfo", null, values);
+                                }
+//                                writableDatabase = dbHelper.getWritableDatabase();
+//                                Query = "Select * from cartinfo where  itemID=?";
+//                                cursor = writableDatabase.rawQuery(Query, new String[]{ShopItem.getItemID()+""});
+//                                Log.i("TAG", "onClick: " + cursor.getCount());
+//                                cursor.moveToFirst();
+//                                String itemID = cursor.getString(cursor.getColumnIndex("itemID"));
+//                                int number = cursor.getInt(cursor.getColumnIndex("number"));
+//                                String selected = cursor.getString(cursor.getColumnIndex("selected"));
+//                                String url = cursor.getString(cursor.getColumnIndex("url"));
+//                                String imageURL = cursor.getString(cursor.getColumnIndex("imageURL"));
+//                                String name = cursor.getString(cursor.getColumnIndex("name"));
+//                                String price = cursor.getString(cursor.getColumnIndex("price"));
+//                                Log.i("TAG", "onClick: " + itemID+"\n"+ number+"\n"+ selected+"\n"
+//                                        + url+"\n"+ imageURL+"\n"+ name+"\n"+ price+"\n");
+                                cursor.close();
+                                writableDatabase.close();
+                                Toast.makeText(context, "已加入购物车", Toast.LENGTH_SHORT).show();
+                            }
+                        })
                         .show();
             }
         });

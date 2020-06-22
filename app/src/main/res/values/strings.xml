@@ -2,5 +2,6 @@
     <string name="app_name">掌上厨房</string>
     <string name="kitchen">厨房</string>
     <string name="shop">集市</string>
+    <string name="cart">购物车</string>
     <string name="my">我</string>
 </resources>

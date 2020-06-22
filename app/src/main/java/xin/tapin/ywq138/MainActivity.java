@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import xin.tapin.ywq138.Adapter.MainFragmentStatePagerAdapter;
 import xin.tapin.ywq138.logregfragment.LogRegActivity;
 import xin.tapin.ywq138.mainfragment.Fragment_Old_kitchen;
+import xin.tapin.ywq138.mainfragment.Fragment_cart;
 import xin.tapin.ywq138.mainfragment.Fragment_kitchen;
 import xin.tapin.ywq138.mainfragment.Fragment_my;
 import xin.tapin.ywq138.mainfragment.Fragment_shop;
@@ -37,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private Toolbar toolbar;
     private BottomNavigationView navigation;
+    private ArrayList<Fragment> data;
+    private int position = 0;
+    private Fragment temp;
+
     /**
      * 监听navigation的选中然后切换Fragment
      */
@@ -45,19 +51,54 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.kitchen:
-                    viewPager.setCurrentItem(0);
-                    return true;
+//                    viewPager.setCurrentItem(0);
+                    position = 0;
+                    break;
                 case R.id.shop:
-                    viewPager.setCurrentItem(1);
-                    return true;
+//                    viewPager.setCurrentItem(1);
+                    position = 1;
+                    break;
+                case R.id.cart:
+//                    viewPager.setCurrentItem(2);
+                    position = 2;
+                    break;
                 case R.id.my:
-                    viewPager.setCurrentItem(2);
-                    return true;
+//                    viewPager.setCurrentItem(3);
+                    position = 3;
+                    break;
             }
-            return false;
+            Fragment baseFragment = getFragment(position);
+            switchFragment(temp,baseFragment);
+            return true;
         }
     };
-
+    public Fragment getFragment(int position){
+        if(data != null && data.size() > 0){
+            Fragment baseFragment = data.get(position);
+            return baseFragment;
+        }
+        return null;
+    }
+    public void switchFragment(Fragment fromFragment, Fragment baseFragment){
+        if(temp != baseFragment){
+            temp = baseFragment;
+            if(baseFragment != null){
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                if(!baseFragment.isAdded()){
+                    if(fromFragment != null){
+                        fragmentTransaction.hide(fromFragment);
+                    }
+                    fragmentTransaction.add(R.id.frameLayout,baseFragment).commit();
+                }else {
+                    if(fromFragment != null){
+                        fragmentTransaction.hide(fromFragment);
+                    }
+                    fragmentTransaction.show(baseFragment).commit();
+                    baseFragment.onResume();
+                }
+            }
+        }
+    }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,36 +106,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //添加Fragment
-        ArrayList<Fragment> data = new ArrayList<>();
+        data = new ArrayList<>();
         data.add(new Fragment_kitchen(this));//新版本
 //        data.add(new Fragment_Old_kitchen(this));//旧版本
         data.add(new Fragment_shop(this));
+        data.add(new Fragment_cart(this));
         data.add(new Fragment_my());
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,data.get(0)).commit();
         //添加标题栏
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         //查找ViewPager并绑定适配器
-        viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(new MainFragmentStatePagerAdapter(getSupportFragmentManager(), this, data));
-        //ViewPager改变监听，设置navigation的选中状态
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                navigation.getMenu().getItem(position).setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+//        viewPager = findViewById(R.id.viewPager);
+//        viewPager.setAdapter(new MainFragmentStatePagerAdapter(getSupportFragmentManager(), this, data));
+//        //ViewPager改变监听，设置navigation的选中状态
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                navigation.getMenu().getItem(position).setChecked(true);
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
 
         //navigation设置选中监听
         navigation = findViewById(R.id.navigation);
@@ -156,5 +199,9 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("退出", null)
                 .setPositiveButton("取消",null)
                 .show();
+    }
+
+    public void backHome() {
+
     }
 }

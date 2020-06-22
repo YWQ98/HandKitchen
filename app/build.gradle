@@ -26,7 +26,11 @@ android {
     }
 
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -44,4 +48,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.sun.mail:android-mail:1.6.0'
     implementation 'com.sun.mail:android-activation:1.6.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation(name: 'alipaySdk-15.7.6-20200521195109', ext: 'aar')
 }

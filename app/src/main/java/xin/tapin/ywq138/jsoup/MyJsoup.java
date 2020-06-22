@@ -3,7 +3,6 @@ package xin.tapin.ywq138.jsoup;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -265,10 +264,14 @@ public class MyJsoup {
             Elements p_img = element.select("div[class=\"p-img\"]");//图片
             Elements a = p_img.select("a");//图片下a标签
             String shopUrl = "https:" + a.attr("href");//商品链接  //item.jd.com/64592930772.html
-            String imageURL = "https:" + a.select("img").attr("src");//图片地址  //img12.360buyimg.com/n7/jfs/t1/111716/31/2362/220510/5ea16f9cE06d5ae43/ccf221007893e1b7.jpg
+            int i = shopUrl.indexOf("m/");
+            int j = shopUrl.indexOf(".html");
+            String itemID = shopUrl.substring(i+2,j);
+//            Log.i("TAG", "getShopItem: "+itemID);
+            String imageURL = "https:" + a.select("img").attr("src");//图片地址  3756271//img12.360buyimg.com/n7/jfs/t1/111716/31/2362/220510/5ea16f9cE06d5ae43/ccf221007893e1b7.jpg
             String price = element.select("div[class=\"gl-i-wrap\"]").select("strong").select("i").text();//价格
             String name = element.select("div[class=\"p-name p-name-type-2\"]").text();//商品名
-            data.add(new ShopItem(shopUrl,imageURL,name,Double.parseDouble(price)));
+            data.add(new ShopItem(itemID,1,true,shopUrl,imageURL,name,Double.parseDouble(price)));
 //            Log.i("TAG", "getShopItem: "+shopUrl+"\n"+imageURL+"\n"+price+"\n"+name);
         }
 
