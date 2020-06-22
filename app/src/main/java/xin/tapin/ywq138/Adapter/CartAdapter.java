@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
@@ -226,6 +227,10 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         }
         return total;
+    }
+    public Double getTotal(){
+        Double s = Double.valueOf(tvShopcartTotal.getText().toString());
+        return s;
     }
     private OnItemClickListener onItemClickListener;
     interface OnItemClickListener {

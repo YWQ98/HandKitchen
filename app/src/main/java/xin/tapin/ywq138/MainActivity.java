@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void backHome() {
-
+        switchFragment(data.get(2),data.get(1));
+        navigation.setSelectedItemId(R.id.shop);
     }
 }

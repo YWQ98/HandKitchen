@@ -14,6 +14,19 @@ public class ShopItem {
     private String name ;//商品名
     private Double price ;//价格
 
+    @Override
+    public String toString() {
+        return "ShopItem{" +
+                "itemID='" + itemID + '\'' +
+                ", number=" + number +
+                ", selected=" + selected +
+                ", url='" + url + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
+
     public ShopItem(String itemID, int number, boolean selected, String url, String imageURL, String name, Double price) {
         this.itemID = itemID;
         this.number = number;
