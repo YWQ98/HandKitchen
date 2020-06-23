@@ -2,6 +2,10 @@ package xin.tapin.ywq138.mainfragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -9,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +67,14 @@ public class Fragment_cart extends Fragment {
     private MySQLite dbHelper;
     private CartAdapter adapter;
     private List<ShopItem> checkBuy;
+
+    private TextView nameTV;
+    private TextView phoneNumberTV;
+    private TextView addressTV;
+    private String name;//收货人姓名
+    private String phoneNumber;//收货人电话
+    private String address;//收货人地址
+
     /**
      * 用于支付宝支付业务的入参 app_id。
      */
@@ -97,7 +110,7 @@ public class Fragment_cart extends Fragment {
 
     private static final int ACTION_COMPLETE = 1;
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -113,14 +126,57 @@ public class Fragment_cart extends Fragment {
                     // 判断resultStatus 为9000则代表支付成功
 
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        showToast("支付成功！请查看订单");
                         SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
-                        for (ShopItem shopItem:
-                             checkBuy) {
+                        ContentValues values = new ContentValues();
+                        values.put("name", name);
+                        values.put("phoneNumber", phoneNumber);
+                        values.put("address", address);
+                        values.put("total", adapter.getTotal());
+                        long shop_order = writableDatabase.insert("shop_order", null, values);
+                        //以下为测试代码
+                        /*String Query = "Select * from shop_order where  id=?";
+                        Cursor cursor = writableDatabase.rawQuery(Query, new String[]{shop_order+""});
+                        if(cursor.moveToNext()){
+                            int id = cursor.getInt(cursor.getColumnIndex("id"));
+                            String name = cursor.getString(cursor.getColumnIndex("name"));
+                            String phoneNumber = cursor.getString(cursor.getColumnIndex("phoneNumber"));
+                            String address = cursor.getString(cursor.getColumnIndex("address"));
+                            Double total = cursor.getDouble(cursor.getColumnIndex("total"));
+                            Log.i("TAG", "handleMessage: " + id +"\n"+ name +"\n"+ phoneNumber +"\n"+ address +"\n"+ total +"\n");
+                        }*/
+                        for (ShopItem shopItem :
+                                checkBuy) {
+                            values = new ContentValues();
+                            values.put("shop_order_id", shop_order);
+                            values.put("itemID", shopItem.getItemID());
+                            values.put("number", shopItem.getNumber());
+                            values.put("selected", shopItem.isSelected());
+                            values.put("url", shopItem.getUrl());
+                            values.put("imageURL", shopItem.getImageURL());
+                            values.put("name", shopItem.getName());
+                            values.put("price", shopItem.getPrice());
+                            writableDatabase.insert("shop_order_detail", null, values);
                             writableDatabase.execSQL("delete from cartinfo where itemID=?", new Object[]{shopItem.getItemID()});
 //                            Log.i("TAG", "handleMessage: " + shopItem.toString());
                         }
+                        //以下为测试代码
+                        /*Query = "Select * from shop_order_detail where  shop_order_id=?";
+                        cursor = writableDatabase.rawQuery(Query, new String[]{shop_order+""});
+                        while (cursor.moveToNext()){
+                            int shop_order_id = cursor.getInt(cursor.getColumnIndex("shop_order_id"));
+                            String itemID = cursor.getString(cursor.getColumnIndex("itemID"));
+                            int number = cursor.getInt(cursor.getColumnIndex("number"));
+                            String selected = cursor.getString(cursor.getColumnIndex("selected"));
+                            String url = cursor.getString(cursor.getColumnIndex("url"));
+                            String imageURL = cursor.getString(cursor.getColumnIndex("imageURL"));
+                            String name = cursor.getString(cursor.getColumnIndex("name"));
+                            String price = cursor.getString(cursor.getColumnIndex("price"));
+                            Log.i("TAG", "handleMessage: " + shop_order_id +"\n"+ itemID +"\n"+ number
+                                    +"\n"+ selected +"\n"+ url +"\n"+ imageURL +"\n"+ name +"\n"+ price +"\n");
+                        }
+                        cursor.close();*/
                         writableDatabase.close();
+                        showToast("支付成功！请查看订单");
                         showData();
                     } else {
                         //刷新数据---显示界面
@@ -151,7 +207,9 @@ public class Fragment_cart extends Fragment {
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
     public Fragment_cart(MainActivity mainActivity) {
         this.dbHelper = new MySQLite(mainActivity,"userinfo.db", null, 1);
@@ -240,7 +298,26 @@ public class Fragment_cart extends Fragment {
                 if(checkBuy.size() == 0){
                     Toast.makeText(mainActivity, "请选择商品", Toast.LENGTH_SHORT).show();
                 }else {
-                    payV2(v);
+                    new AlertDialog.Builder(mainActivity)
+                            .setTitle("请输入收获信息")
+                            .setView(getDialogView())
+                            .setPositiveButton("取消",null)
+                            .setNegativeButton("确认并付款", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    name = nameTV.getText().toString();
+                                    phoneNumber = phoneNumberTV.getText().toString();
+                                    address = addressTV.getText().toString();
+                                    if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(phoneNumber)
+                                            && !TextUtils.isEmpty(address)){
+                                        payV2(v);
+                                    }else{
+                                        Toast.makeText(mainActivity, "请输入收货人信息", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .show();
+//                    payV2(v);
                 }
 
                 }
@@ -276,6 +353,27 @@ public class Fragment_cart extends Fragment {
                 mainActivity.backHome();
             }
         });
+    }
+
+    /**
+     * 弹窗让用户填写收货人信息
+     * @return
+     */
+    public View getDialogView(){
+        View view = View.inflate(mainActivity,R.layout.dialog_item_order_info,null);
+        nameTV = view.findViewById(R.id.name);
+        phoneNumberTV = view.findViewById(R.id.phoneNumber);
+        addressTV = view.findViewById(R.id.address);
+        if (!TextUtils.isEmpty(name)) {
+            nameTV.setText(name);
+        }
+        if (!TextUtils.isEmpty(phoneNumber)) {
+            phoneNumberTV.setText(phoneNumber);
+        }
+        if (!TextUtils.isEmpty(address)) {
+            addressTV.setText(address);
+        }
+        return view;
     }
     private void checkData() {
         if (adapter != null && adapter.getItemCount() > 0) {

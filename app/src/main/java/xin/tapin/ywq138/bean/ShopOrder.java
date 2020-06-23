@@ -3,12 +3,21 @@ package xin.tapin.ywq138.bean;
 import java.util.List;
 
 public class ShopOrder {
-    private Integer id;//数据库id
+    private Integer id;//自增id
     private String name;//姓名
     private String phoneNumber;//电话
     private String address;//地址
     private List<ShopItem> shopItems;//已购买的商品
     private Double total;//总价
+
+    public ShopOrder(Integer id, String name, String phoneNumber, String address, List<ShopItem> shopItems, Double total) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.shopItems = shopItems;
+        this.total = total;
+    }
 
     public Integer getId() {
         return id;

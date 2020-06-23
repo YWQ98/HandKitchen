@@ -21,6 +21,15 @@ public class MySQLite extends SQLiteOpenHelper {
             "url varchar(100) not null,title varchar(50) not null,imgUrl varchar(100) not null" +
             ",message varchar(200) not null,mainIngredient varchar(200) not null,auxiliaryIngredient varchar(200) not null" +
             ",seasoning varchar(200) not null,recipeStep varchar(500) not null)";
+    /**
+     * 订单
+     */
+    private String shop_order="create table if not exists shop_order(id INTEGER primary key AUTOINCREMENT," +
+            "name varchar(50) not null,phoneNumber varchar(50) not null,address varchar(50) not null" +
+            ",total double not null)";
+    private String shop_order_detail="create table if not exists shop_order_detail(shop_order_id INTEGER," +
+            "itemID varchar(50) not null,number int not null,selected varchar(50) not null" +
+            ",url varchar(100) not null,imageURL varchar(150) not null,name varchar(70) not null,price double not null)";
 
     /**
      *
@@ -42,6 +51,8 @@ public class MySQLite extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.execSQL(cart);
         db.execSQL(collect_cookbook);
+        db.execSQL(shop_order);
+        db.execSQL(shop_order_detail);
 
     }
 
