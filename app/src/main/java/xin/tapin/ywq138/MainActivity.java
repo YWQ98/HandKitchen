@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
 //        data.add(new Fragment_Old_kitchen(this));//旧版本
         data.add(new Fragment_shop(this));
         data.add(new Fragment_cart(this));
-        data.add(new Fragment_my());
-        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,data.get(0)).commit();
+        data.add(new Fragment_my(this));
+        switchFragment(null,data.get(0));
         //添加标题栏
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
