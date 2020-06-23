@@ -1,4 +1,4 @@
-package xin.tapin.ywq138.Adapter;
+package xin.tapin.ywq138.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.List;
 
-import xin.tapin.ywq138.DB.MySQLite;
+import xin.tapin.ywq138.db.MySQLite;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.ShopItem;

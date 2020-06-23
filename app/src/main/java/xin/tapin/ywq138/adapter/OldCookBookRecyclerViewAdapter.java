@@ -1,4 +1,4 @@
-package xin.tapin.ywq138.Adapter;
+package xin.tapin.ywq138.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;

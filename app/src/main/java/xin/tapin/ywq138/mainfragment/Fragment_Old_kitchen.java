@@ -26,7 +26,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.List;
 
 import okhttp3.Call;
-import xin.tapin.ywq138.Adapter.OldCookBookRecyclerViewAdapter;
+import xin.tapin.ywq138.adapter.OldCookBookRecyclerViewAdapter;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.base.MyApplication;

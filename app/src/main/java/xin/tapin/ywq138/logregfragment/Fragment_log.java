@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import xin.tapin.ywq138.DB.MySQLite;
+import xin.tapin.ywq138.db.MySQLite;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.base.MyApplication;

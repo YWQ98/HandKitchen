@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,27 +27,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import xin.tapin.ywq138.Adapter.CartAdapter;
-import xin.tapin.ywq138.DB.MySQLite;
+import xin.tapin.ywq138.adapter.CartAdapter;
+import xin.tapin.ywq138.db.MySQLite;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.ShopItem;
 import xin.tapin.ywq138.pay.AuthResult;
 import xin.tapin.ywq138.pay.OrderInfoUtil2_0;
 import xin.tapin.ywq138.pay.PayResult;
-
-import static xin.tapin.ywq138.pay.PayDemoActivity.APPID;
-import static xin.tapin.ywq138.pay.PayDemoActivity.RSA2_PRIVATE;
-import static xin.tapin.ywq138.pay.PayDemoActivity.RSA_PRIVATE;
 
 /**
  * 集市Fragment

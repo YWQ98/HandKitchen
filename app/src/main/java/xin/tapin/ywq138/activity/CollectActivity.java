@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import xin.tapin.ywq138.Adapter.CollectRecyclerViewAdapter;
-import xin.tapin.ywq138.DB.MySQLite;
+import xin.tapin.ywq138.adapter.CollectRecyclerViewAdapter;
+import xin.tapin.ywq138.db.MySQLite;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.CookBook;
 

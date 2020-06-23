@@ -1,4 +1,4 @@
-package xin.tapin.ywq138.DB;
+package xin.tapin.ywq138.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

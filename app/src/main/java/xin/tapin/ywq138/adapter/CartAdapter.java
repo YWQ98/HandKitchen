@@ -1,13 +1,10 @@
-package xin.tapin.ywq138.Adapter;
+package xin.tapin.ywq138.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,11 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
-import xin.tapin.ywq138.DB.MySQLite;
+import xin.tapin.ywq138.db.MySQLite;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.ShopItem;
 import xin.tapin.ywq138.view.AddSubView;

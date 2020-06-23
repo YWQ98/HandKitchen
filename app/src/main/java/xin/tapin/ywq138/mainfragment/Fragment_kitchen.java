@@ -2,7 +2,6 @@ package xin.tapin.ywq138.mainfragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youth.banner.Banner;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 
 import java.util.List;
 
-import okhttp3.Call;
-import xin.tapin.ywq138.Adapter.CookBookRecyclerViewAdapter;
+import xin.tapin.ywq138.adapter.CookBookRecyclerViewAdapter;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.base.MyApplication;

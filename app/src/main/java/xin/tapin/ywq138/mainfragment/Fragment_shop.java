@@ -21,7 +21,7 @@ import com.youth.banner.Banner;
 
 import java.util.List;
 
-import xin.tapin.ywq138.Adapter.ShopRecyclerViewAdapter;
+import xin.tapin.ywq138.adapter.ShopRecyclerViewAdapter;
 import xin.tapin.ywq138.MainActivity;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.base.MyApplication;

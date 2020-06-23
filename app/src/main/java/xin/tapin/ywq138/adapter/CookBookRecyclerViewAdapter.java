@@ -1,4 +1,4 @@
-package xin.tapin.ywq138.Adapter;
+package xin.tapin.ywq138.adapter;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import xin.tapin.ywq138.DB.MySQLite;
+import xin.tapin.ywq138.db.MySQLite;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.CookBook;
 

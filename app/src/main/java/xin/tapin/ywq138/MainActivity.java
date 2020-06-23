@@ -24,9 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import xin.tapin.ywq138.Adapter.MainFragmentStatePagerAdapter;
 import xin.tapin.ywq138.logregfragment.LogRegActivity;
-import xin.tapin.ywq138.mainfragment.Fragment_Old_kitchen;
 import xin.tapin.ywq138.mainfragment.Fragment_cart;
 import xin.tapin.ywq138.mainfragment.Fragment_kitchen;
 import xin.tapin.ywq138.mainfragment.Fragment_my;
