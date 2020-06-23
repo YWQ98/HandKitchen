@@ -15,7 +15,9 @@ import androidx.appcompat.widget.TintTypedArray;
 
 import xin.tapin.ywq138.R;
 
-
+/**
+ * 学自-尚硅谷商城
+ */
 public class AddSubView extends LinearLayout implements View.OnClickListener {
     private ImageView btn_sub;
     private ImageView btn_add;

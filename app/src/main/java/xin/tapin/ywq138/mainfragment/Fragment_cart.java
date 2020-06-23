@@ -47,7 +47,7 @@ import xin.tapin.ywq138.pay.OrderInfoUtil2_0;
 import xin.tapin.ywq138.pay.PayResult;
 
 /**
- * 集市Fragment
+ * 购物车Fragment
  */
 public class Fragment_cart extends Fragment {
     private final MainActivity mainActivity;

@@ -83,7 +83,7 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
     }
 
     /**
-     * 弹窗显示菜的材料和做法
+     * 弹窗显示订单详情
      * @param shopOrder
      * @return
      */
@@ -108,10 +108,8 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
         String Query = "Select * from shop_order_detail where  shop_order_id=?";
         Cursor cursor = writableDatabase.rawQuery(Query, new String[]{shopOrder.getId()+""});
         while (cursor.moveToNext()){
-            int shop_order_id = cursor.getInt(cursor.getColumnIndex("shop_order_id"));
             String itemID = cursor.getString(cursor.getColumnIndex("itemID"));
             int number = cursor.getInt(cursor.getColumnIndex("number"));
-            String selected = cursor.getString(cursor.getColumnIndex("selected"));
             String url = cursor.getString(cursor.getColumnIndex("url"));
             String imageURL = cursor.getString(cursor.getColumnIndex("imageURL"));
             String name = cursor.getString(cursor.getColumnIndex("name"));

@@ -36,6 +36,7 @@ public class CollectActivity extends AppCompatActivity {
         this.mySQLite = new MySQLite(this,"userinfo.db", null, 1);
         initView();
         initData();
+        //退出监听
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +45,9 @@ public class CollectActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
         List<CookBook> data = new ArrayList<>();
         SQLiteDatabase writableDatabase = mySQLite.getWritableDatabase();
@@ -60,6 +64,7 @@ public class CollectActivity extends AppCompatActivity {
             data.add(new CookBook(url,title,imgUrl,message,mainIngredient,auxiliaryIngredient,seasoning,recipeStep));
         }
         writableDatabase.close();
+        //判断是否有数据  界面提示用的  R.layout.activity_collect布局
         if(data.size() == 0){
             textView2.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);

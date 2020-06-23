@@ -20,6 +20,9 @@ import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.ShopItem;
 import xin.tapin.ywq138.view.AddSubView;
 
+/**
+ * 购物车适配器  学自-尚硅谷商城
+ */
 public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private MySQLite mySQLite;
     private Context mContext;
@@ -43,7 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.checkboxAll = checkboxAll;
         this.cb_all = cb_all;
 
-            showTotalPrice();
+        showTotalPrice();
         checkboxAll.setChecked(checkboxAll.isChecked());
         for (int i = 0; i < datas.size(); i++) {
             datas.get(i).setSelected(datas.get(i).isSelected());

@@ -12,7 +12,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
-
+/**
+ * 发送Email类
+ */
 public class Email {
 
 	public static boolean sendEmail(String emailaddress,String code){

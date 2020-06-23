@@ -19,7 +19,7 @@ import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.OldCookBook;
 
 /**
- * 食谱适配器
+ * 旧版食谱适配器
  */
 public class OldCookBookRecyclerViewAdapter extends RecyclerView.Adapter <OldCookBookRecyclerViewAdapter.CookBookViewHolder>{
     private List<OldCookBook> data;

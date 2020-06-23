@@ -126,7 +126,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter <ShopRecyclerV
     }
 
     /**
-     * 弹窗显示菜的材料和做法
+     * 弹窗显示商品详情
      * @param shopItem
      * @return
      */

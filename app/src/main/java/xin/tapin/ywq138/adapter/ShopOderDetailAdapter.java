@@ -15,6 +15,9 @@ import java.util.List;
 import xin.tapin.ywq138.R;
 import xin.tapin.ywq138.bean.ShopItem;
 
+/**
+ * 订单详情适配器
+ */
 public class ShopOderDetailAdapter extends RecyclerView.Adapter<ShopOderDetailAdapter.ShopOrderDetailViewHolder> {
     private Context mContext;
     private List<ShopItem> data;

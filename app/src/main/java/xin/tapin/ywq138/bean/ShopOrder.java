@@ -2,6 +2,9 @@ package xin.tapin.ywq138.bean;
 
 import java.util.List;
 
+/**
+ * 订单类
+ */
 public class ShopOrder {
     private Integer id;//自增id
     private String name;//姓名

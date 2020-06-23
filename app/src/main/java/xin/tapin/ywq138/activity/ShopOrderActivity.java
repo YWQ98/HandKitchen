@@ -19,6 +19,9 @@ import xin.tapin.ywq138.adapter.ShopOrderRecyclerViewAdapter;
 import xin.tapin.ywq138.bean.ShopOrder;
 import xin.tapin.ywq138.db.MySQLite;
 
+/**
+ * 订单Activity
+ */
 public class ShopOrderActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView textView;
@@ -33,6 +36,7 @@ public class ShopOrderActivity extends AppCompatActivity {
         this.mySQLite = new MySQLite(this,"userinfo.db", null, 1);
         initView();
         initData();
+        //退出监听
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +44,10 @@ public class ShopOrderActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * 初始化数据
+     */
     private void initData() {
         List<ShopOrder> data = new ArrayList<>();
         SQLiteDatabase writableDatabase = mySQLite.getWritableDatabase();
@@ -53,6 +61,7 @@ public class ShopOrderActivity extends AppCompatActivity {
             data.add(new ShopOrder(id,name,phoneNumber,address,null,total));
         }
         writableDatabase.close();
+        //判断是否有数据  界面提示用的  R.layout.activity_collect布局
         if(data.size() == 0){
             textView2.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
