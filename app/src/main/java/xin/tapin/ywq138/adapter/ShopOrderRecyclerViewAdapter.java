@@ -36,7 +36,9 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
     private final LinearLayout linearLayout;
     private List<ShopOrder> data;
     private Context context;
+    private ImageView imageView;
     private MySQLite dbHelper;
+    List<ShopItem> shopItems;
     public ShopOrderRecyclerViewAdapter(List<ShopOrder> data, Context context, TextView textView2, LinearLayout linearLayout) {
         this.dbHelper = new MySQLite(context,"userinfo.db", null, 1);
         this.data = data;
@@ -45,12 +47,14 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
         this.linearLayout = linearLayout;
     }
     class CookBookViewHolder extends RecyclerView.ViewHolder{
+        ImageView imageView;
         TextView textView;
         TextView textView2;
         public CookBookViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
             textView2 = itemView.findViewById(R.id.textView2);
+            imageView = itemView.findViewById(R.id.imageView);
         }
     }
     @NonNull
@@ -65,7 +69,9 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
         final ShopOrder shopOrder = data.get(position);
         holder.textView.setText(String.format("%d", shopOrder.getId()));
         holder.textView2.setText(String.format("￥%s", shopOrder.getTotal()));
-
+        this.imageView = holder.imageView;
+        initOneData(shopOrder);
+        Picasso.get().load(shopItems.get(0).getImageURL()).into(imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +86,45 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void initOneData(ShopOrder shopOrder){
+        shopItems = new ArrayList<>();
+
+        SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
+        String Query = "Select * from shop_order_detail where  shop_order_id=?";
+        Cursor cursor = writableDatabase.rawQuery(Query, new String[]{shopOrder.getId()+""});
+        while (cursor.moveToNext()){
+            String itemID = cursor.getString(cursor.getColumnIndex("itemID"));
+            int number = cursor.getInt(cursor.getColumnIndex("number"));
+            String url = cursor.getString(cursor.getColumnIndex("url"));
+            String imageURL = cursor.getString(cursor.getColumnIndex("imageURL"));
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            Double price = Double.valueOf(cursor.getString(cursor.getColumnIndex("price")));
+            shopItems.add(new ShopItem(itemID,number,true,url,imageURL,name,price));
+        }
+        cursor.close();
+        writableDatabase.close();
+    }
+
+
+    public void initData(ShopOrder shopOrder){
+        shopItems = new ArrayList<>();
+
+        SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
+        String Query = "Select * from shop_order_detail where  shop_order_id=?";
+        Cursor cursor = writableDatabase.rawQuery(Query, new String[]{shopOrder.getId()+""});
+        while (cursor.moveToNext()){
+            String itemID = cursor.getString(cursor.getColumnIndex("itemID"));
+            int number = cursor.getInt(cursor.getColumnIndex("number"));
+            String url = cursor.getString(cursor.getColumnIndex("url"));
+            String imageURL = cursor.getString(cursor.getColumnIndex("imageURL"));
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            Double price = Double.valueOf(cursor.getString(cursor.getColumnIndex("price")));
+            shopItems.add(new ShopItem(itemID,number,true,url,imageURL,name,price));
+        }
+        cursor.close();
+        writableDatabase.close();
     }
 
     /**
@@ -102,7 +147,8 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
         textView5.setText(String.format("￥%s", shopOrder.getTotal()));
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        List<ShopItem> data = new ArrayList<>();
+        initData(shopOrder);
+        /*shopItems = new ArrayList<>();
 
         SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
         String Query = "Select * from shop_order_detail where  shop_order_id=?";
@@ -114,12 +160,12 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
             String imageURL = cursor.getString(cursor.getColumnIndex("imageURL"));
             String name = cursor.getString(cursor.getColumnIndex("name"));
             Double price = Double.valueOf(cursor.getString(cursor.getColumnIndex("price")));
-            data.add(new ShopItem(itemID,number,true,url,imageURL,name,price));
+            shopItems.add(new ShopItem(itemID,number,true,url,imageURL,name,price));
         }
         cursor.close();
-        writableDatabase.close();
+        writableDatabase.close();*/
 
-        recyclerView.setAdapter(new ShopOderDetailAdapter(context,data));
+        recyclerView.setAdapter(new ShopOderDetailAdapter(context,shopItems));
         return view;
     }
 }
