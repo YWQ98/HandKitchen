@@ -102,6 +102,7 @@ public class ShopOrderRecyclerViewAdapter extends RecyclerView.Adapter <ShopOrde
             String name = cursor.getString(cursor.getColumnIndex("name"));
             Double price = Double.valueOf(cursor.getString(cursor.getColumnIndex("price")));
             shopItems.add(new ShopItem(itemID,number,true,url,imageURL,name,price));
+            break;
         }
         cursor.close();
         writableDatabase.close();
